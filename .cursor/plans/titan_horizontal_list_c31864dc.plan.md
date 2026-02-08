@@ -4,22 +4,22 @@ overview: Build a Netflix/Kodi-style horizontal carousel navigable with keyboard
 todos:
   - id: phase-0
     content: "Phase 0: Project scaffold (Bun bundler + index.html + Storybook 10 + Vitest + Playwright + CSS tokens)"
-    status: pending
+    status: completed
   - id: phase-1a
     content: "Phase 1 Branch A: API types + useMoviesStore (single global Zustand 5 store)"
-    status: pending
+    status: completed
   - id: phase-1b
     content: "Phase 1 Branch B: CSS Modules (BEM + design tokens) for Carousel, CarouselItem, App"
-    status: pending
+    status: completed
   - id: phase-2
     content: "Phase 2: Implement pure Carousel + CarouselItem components, wire App to store"
-    status: pending
+    status: completed
   - id: phase-3
     content: "Phase 3: Storybook 10 stories with play function interaction tests + Vitest addon"
-    status: pending
+    status: completed
   - id: phase-4
     content: "Phase 4: Playwright E2E + visual regression tests via Storybook iframes"
-    status: pending
+    status: completed
 isProject: false
 ---
 
