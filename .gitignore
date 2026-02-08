@@ -35,3 +35,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 *storybook.log
 storybook-static
+
+# Playwright test results & snapshots
+test-results/
+tests/visual/visual-regression.spec.ts-snapshots/
