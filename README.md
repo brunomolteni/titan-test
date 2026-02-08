@@ -2,6 +2,8 @@
 
 ![Desktop screenshot](docs/desktop-screenshot.png)
 
+[Live Demo](https://brunomolteni.github.io/titan-test/)
+
 A Netflix/Kodi-style horizontal carousel navigable with keyboard arrows. Built with React 19, Zustand 5, CSS Modules, Storybook 10, Vitest, and Playwright.
 
 ## Overview
