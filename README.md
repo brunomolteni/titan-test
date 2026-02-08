@@ -8,8 +8,8 @@ This project implements a horizontal carousel component that displays movies in 
 
 ## Demo
 
-- [Desktop Recording](recordings/desktop.mov)
-- [Mobile Recording](recordings/mobile.mov)
+- [Desktop Recording](https://github.com/brunomolteni/titan-test/raw/refs/heads/main/recordings/desktop.mov)
+- [Mobile Recording](https://github.com/brunomolteni/titan-test/raw/refs/heads/main/recordings/mobile.mov)
 
 ## Setup
 
