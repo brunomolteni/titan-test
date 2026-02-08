@@ -6,6 +6,25 @@ A Netflix/Kodi-style horizontal carousel navigable with keyboard arrows. Built w
 
 This project implements a horizontal carousel component that displays movies in a scrollable list. Users can navigate through items using keyboard arrow keys, with smooth scrolling and focus management. The application fetches movie data from the Titan API and displays it in an interactive carousel interface.
 
+## Demo
+
+<table>
+  <tr>
+    <td width="66%">
+      <strong>Desktop</strong><br>
+      <video src="https://raw.githubusercontent.com/brunomolteni/titan-test/main/recordings/desktop.mov" controls width="100%">
+        Your browser does not support the video tag.
+      </video>
+    </td>
+    <td width="34%">
+      <strong>Mobile</strong><br>
+      <video src="https://raw.githubusercontent.com/brunomolteni/titan-test/main/recordings/mobile.mov" controls width="100%">
+        Your browser does not support the video tag.
+      </video>
+    </td>
+  </tr>
+</table>
+
 ## Setup
 
 ### Prerequisites
