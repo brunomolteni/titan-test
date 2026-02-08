@@ -21,6 +21,15 @@ export default defineConfig({
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
           storybookTest({ configDir: path.join(dirname, '.storybook') }),
         ],
+        optimizeDeps: {
+          include: [
+            '@storybook/test',
+            '@storybook/addon-a11y/preview',
+            'react',
+            'react-dom',
+            'react-dom/client',
+          ],
+        },
         test: {
           name: 'storybook',
           browser: {
