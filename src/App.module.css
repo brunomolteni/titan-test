@@ -5,11 +5,21 @@
 }
 
 .app__title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-focus-ring);
+  font-weight: 800;
   padding-left: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  background: linear-gradient(135deg, var(--color-focus-ring) 0%, rgba(255, 255, 255, 0.9) 50%, var(--color-focus-ring) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: 
+          drop-shadow(0 0 1px rgba(0, 0, 0, 1))
+          drop-shadow(0 0 2px rgba(255, 255, 255, 0.4))
+          drop-shadow(0 0 5px rgba(255, 50, 50, 0.3)) 
+          drop-shadow(0 0 15px rgba(255, 0, 0, 0.3)) 
 }
