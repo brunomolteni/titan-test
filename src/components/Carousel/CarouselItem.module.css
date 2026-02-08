@@ -1,0 +1,19 @@
+.item {
+  flex: 0 0 auto;
+  outline: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item--focused {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  z-index: 1;
+}
+
+.item__image {
+  width: 160px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  display: block;
+}
