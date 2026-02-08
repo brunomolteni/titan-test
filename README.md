@@ -8,22 +8,9 @@ This project implements a horizontal carousel component that displays movies in 
 
 ## Demo
 
-<table>
-  <tr>
-    <td width="66%">
-      <strong>Desktop</strong><br>
-      <video src="https://raw.githubusercontent.com/brunomolteni/titan-test/main/recordings/desktop.mov" controls width="100%">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-    <td width="34%">
-      <strong>Mobile</strong><br>
-      <video src="https://raw.githubusercontent.com/brunomolteni/titan-test/main/recordings/mobile.mov" controls width="100%">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-  </tr>
-</table>
+Desktop (2/3) | Mobile (1/3)
+:-: | :-:
+<video src='https://raw.githubusercontent.com/brunomolteni/titan-test/main/recordings/desktop.mov' width='100%'></video> | <video src='https://raw.githubusercontent.com/brunomolteni/titan-test/main/recordings/mobile.mov' width='100%'></video>
 
 ## Setup
 
