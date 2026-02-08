@@ -1,0 +1,8 @@
+:root {
+  --color-bg: #141414;
+  --color-surface: #1a1a2e;
+  --color-focus-ring: #e50914;
+  --color-text: #ffffff;
+  --color-text-muted: #b3b3b3;
+  --radius-md: 4px;
+}
