@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { ContentItem } from '../../types/api';
+import { useSwipeGesture } from '../../hooks/useSwipeGesture';
 import styles from './CarouselItem.module.css';
 
 interface CarouselItemProps {
   movie: ContentItem;
   isFocused: boolean;
   onSelect: (movie: ContentItem) => void;
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
   ref?: React.Ref<HTMLLIElement>;
 }
 
@@ -24,16 +27,48 @@ const PLACEHOLDER_IMAGE = `data:image/svg+xml;base64,${btoa(
   </svg>`
 )}`;
 
-export default function CarouselItem({ movie, isFocused, onSelect, ref }: CarouselItemProps) {
+export default function CarouselItem({ 
+  movie, 
+  isFocused, 
+  onSelect, 
+  onSwipeLeft,
+  onSwipeRight,
+  ref: itemRef 
+}: CarouselItemProps) {
   const [imageError, setImageError] = useState(false);
   const className = `${styles.item}${isFocused ? ` ${styles['item--focused']}` : ''}`;
   const imageSrc = imageError || !movie.images.artwork_portrait 
     ? PLACEHOLDER_IMAGE 
     : movie.images.artwork_portrait;
 
+  // Swipe gesture only active when item is focused
+  const { ref: swipeRef } = useSwipeGesture({
+    onSwipeLeft,
+    onSwipeRight,
+    enabled: isFocused,
+    threshold: 50,
+    maxVerticalDistance: 30,
+    throttleMs: 150,
+  });
+
+  // Combine item ref with swipe ref
+  const setRef = useCallback(
+    (el: HTMLLIElement | null) => {
+      // Set item ref (for parent component)
+      if (typeof itemRef === 'function') {
+        itemRef(el);
+      } else if (itemRef) {
+        (itemRef as React.MutableRefObject<HTMLLIElement | null>).current = el;
+      }
+      // Set swipe ref (for gesture detection)
+      swipeRef(el);
+    },
+    [itemRef, swipeRef],
+  );
+
   return (
     <li
-      ref={ref}
+      ref={setRef}
       className={className}
       data-testid={`carousel-item-${movie.id}`}
       data-focused={isFocused}

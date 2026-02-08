@@ -61,6 +61,23 @@ export default function Carousel({ movies, focusedMovie, onFocusChange, onSelect
   const DURATION_DEFAULT = 400;
   const DURATION_RAPID = 220;
 
+  // Swipe handlers (throttling handled inside useSwipeGesture hook)
+  const handleSwipeLeft = useCallback(() => {
+    // Swipe left = move to next item
+    const nextIndex = focusedMovie + 1;
+    if (nextIndex < movies.length) {
+      onFocusChange(nextIndex);
+    }
+  }, [focusedMovie, movies.length, onFocusChange]);
+
+  const handleSwipeRight = useCallback(() => {
+    // Swipe right = move to previous item
+    const prevIndex = focusedMovie - 1;
+    if (prevIndex >= 0) {
+      onFocusChange(prevIndex);
+    }
+  }, [focusedMovie, onFocusChange]);
+
   const setItemRef = useCallback(
     (index: number) => (el: HTMLLIElement | null) => {
       if (el) itemRefs.current.set(index, el);
@@ -113,6 +130,8 @@ export default function Carousel({ movies, focusedMovie, onFocusChange, onSelect
             movie={movie}
             isFocused={index === focusedMovie}
             onSelect={onSelect}
+            onSwipeLeft={handleSwipeLeft}
+            onSwipeRight={handleSwipeRight}
           />
         ))}
       </ul>
