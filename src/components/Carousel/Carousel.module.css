@@ -2,15 +2,20 @@
   position: relative;
   width: 100vw;
   overflow: hidden;
+  margin-top: 20vh;
 }
 
 .carousel__list {
   display: flex;
   gap: var(--spacing-md);
   padding: var(--spacing-lg) var(--spacing-xl);
-  overflow-x: auto;
-  scrollbar-width: none;
   list-style: none;
+  overscroll-behavior-x: contain;
+
+  /* Compositor-thread animation: translateX */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .carousel__list::-webkit-scrollbar {

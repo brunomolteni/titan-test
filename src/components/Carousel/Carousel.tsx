@@ -10,40 +10,95 @@ interface CarouselProps {
   onSelect: (movie: ContentItem) => void;
 }
 
+// Ease-out cubic for natural deceleration
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+// Transform-based smooth scroll (runs on compositor thread)
+const animateTransform = (
+  element: HTMLElement,
+  from: number,
+  to: number,
+  duration: number,
+): (() => void) => {
+  const distance = to - from;
+  if (Math.abs(distance) < 0.5) {
+    element.style.transform = `translateX(${-to}px)`;
+    return () => {};
+  }
+
+  const startTime = performance.now();
+  let rafId = 0;
+  let cancelled = false;
+
+  const tick = (now: number) => {
+    if (cancelled) return;
+    const progress = Math.min((now - startTime) / duration, 1);
+    const current = from + distance * easeOutCubic(progress);
+    element.style.transform = `translateX(${-current}px)`;
+
+    if (progress < 1) {
+      rafId = requestAnimationFrame(tick);
+    }
+  };
+
+  rafId = requestAnimationFrame(tick);
+
+  return () => {
+    cancelled = true;
+    if (rafId) cancelAnimationFrame(rafId);
+  };
+};
+
 export default function Carousel({ movies, focusedMovie, onFocusChange, onSelect }: CarouselProps) {
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<Map<number, HTMLLIElement>>(new Map());
+  const lastNavTime = useRef(0);
+  const lastScrollTime = useRef(0);
+  const offsetRef = useRef(0);
+  const cancelRef = useRef<(() => void) | null>(null);
 
-  const setItemRef = useCallback((index: number) => (el: HTMLLIElement | null) => {
-    if (el) {
-      itemRefs.current.set(index, el);
-    } else {
-      itemRefs.current.delete(index);
-    }
-  }, []);
+  const THROTTLE_MS = 150;
+  const DURATION_DEFAULT = 400;
+  const DURATION_RAPID = 220;
 
-  // Keyboard navigation
+  const setItemRef = useCallback(
+    (index: number) => (el: HTMLLIElement | null) => {
+      if (el) itemRefs.current.set(index, el);
+      else itemRefs.current.delete(index);
+    },
+    [],
+  );
+
+  // Keyboard navigation (throttled)
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        onFocusChange(focusedMovie + 1);
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        onFocusChange(focusedMovie - 1);
-      }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const now = Date.now();
+      if (now - lastNavTime.current < THROTTLE_MS) return;
+      lastNavTime.current = now;
+      e.preventDefault();
+      onFocusChange(focusedMovie + (e.key === 'ArrowRight' ? 1 : -1));
     };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [focusedMovie, onFocusChange]);
 
-  // Smooth scroll to pin focused item leftmost
+  // Animate to focused item using translateX
   useEffect(() => {
-    const el = itemRefs.current.get(focusedMovie);
-    if (!el || !listRef.current) return;
+    const item = itemRefs.current.get(focusedMovie);
+    if (!item || !listRef.current) return;
+
+    const now = Date.now();
+    const gap = now - lastScrollTime.current;
+    lastScrollTime.current = now;
+    const duration = gap < 300 ? DURATION_RAPID : DURATION_DEFAULT;
+
     const padding = parseFloat(getComputedStyle(listRef.current).paddingLeft) || 0;
-    listRef.current.scrollTo({ left: el.offsetLeft - padding, behavior: 'smooth' });
+    const target = item.offsetLeft - padding;
+
+    if (cancelRef.current) cancelRef.current();
+    cancelRef.current = animateTransform(listRef.current, offsetRef.current, target, duration);
+    offsetRef.current = target;
   }, [focusedMovie]);
 
   if (movies.length === 0) return null;

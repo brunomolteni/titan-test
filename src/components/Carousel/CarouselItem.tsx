@@ -50,8 +50,11 @@ export default function CarouselItem({ movie, isFocused, onSelect, ref }: Carous
           className={styles.item__image}
           src={imageSrc}
           alt={movie.title}
-          loading="lazy"
-          onError={() => setImageError(true)}
+          loading="eager"
+          onError={(e) => {
+            setImageError(true);
+            (e.target as HTMLImageElement).src = PLACEHOLDER_IMAGE;
+          }}
         />
         <div className={styles.item__highlight} aria-hidden="true" />
       </div>

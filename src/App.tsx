@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useMoviesStore } from './stores/useMoviesStore';
+import { usePreloadImages } from './hooks/usePreloadImages';
 import Carousel from './components/Carousel/Carousel';
 import styles from './App.module.css';
 
@@ -17,6 +18,8 @@ export default function App() {
   useEffect(() => {
     fetchMovies();
   }, [fetchMovies]);
+
+  usePreloadImages(movies.map((movie) => movie.images.artwork_portrait));
 
   return (
     <main className={styles.app}>
