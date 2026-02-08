@@ -16,26 +16,17 @@ test.describe('Carousel E2E', () => {
     await expect(firstItem).toHaveAttribute('data-focused', 'true');
   });
 
-  test('ArrowRight changes focus to next item', async ({ page }) => {
-    // The story has onFocusChange as a spy — we can't check it from E2E
-    // But we CAN test a full integration story where the state actually changes
-    // For now, verify the keyboard event is received by pressing ArrowRight
-    await page.keyboard.press('ArrowRight');
-    // Since the story's onFocusChange is a mock that doesn't update state,
-    // we verify the key event was dispatched (no error thrown)
-  });
-
   test('scrolls to show focused item when rendering FocusedAtThird story', async ({ page }) => {
     await page.goto('/iframe.html?id=components-carousel--focused-at-third&viewMode=story');
     await page.waitForSelector('[role="listbox"]');
 
-    // Give scroll animation time to complete
-    await page.waitForTimeout(500);
-
-    const list = page.locator('ul').first();
-    const scrollLeft = await list.evaluate((el) => el.scrollLeft);
-    // The third item should cause some scroll offset
-    expect(scrollLeft).toBeGreaterThan(0);
+    // Carousel uses translateX for scrolling (not native scrollLeft).
+    // Target the carousel's <ul> inside [role="listbox"], not a Storybook wrapper <ul>.
+    const list = page.locator('[role="listbox"] ul');
+    await expect(async () => {
+      const transform = await list.evaluate((el) => el.style.transform);
+      expect(transform).toMatch(/translateX\(-\d+/);
+    }).toPass({ timeout: 2000 });
   });
 
   test('items display poster images', async ({ page }) => {
