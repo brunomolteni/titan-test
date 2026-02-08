@@ -24,12 +24,14 @@ export default function App() {
   return (
     <main className={styles.app}>
       <h1 className={styles.app__title}>TitanTest</h1>
-      <Carousel
+      <div className={styles.app__carousel}>
+        <Carousel
         movies={movies}
         focusedMovie={focusedMovie}
-        onFocusChange={focusMovie}
-        onSelect={selectMovie}
-      />
+          onFocusChange={focusMovie}
+          onSelect={selectMovie}
+        />
+      </div>
     </main>
   );
 }

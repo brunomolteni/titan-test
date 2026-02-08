@@ -2,7 +2,6 @@
   position: relative;
   width: 100vw;
   overflow: hidden;
-  margin-top: 20vh;
 }
 
 .carousel__list {
@@ -16,6 +15,17 @@
   will-change: transform;
   backface-visibility: hidden;
   transform: translateZ(0);
+}
+
+/* Mobile: center items with 5% of adjacent items visible */
+@media (max-width: 768px) {
+  .carousel__list {
+    /* Center the first item: (100vw - 60vw) / 2 = 20vw */
+    padding-left: 20vw;
+    padding-right: 20vw;
+    /* Gap to show 5% of adjacent items: 20vw (space) - 3vw (5% of 60vw) = 17vw */
+    gap: 8vw;
+  }
 }
 
 .carousel__list::-webkit-scrollbar {

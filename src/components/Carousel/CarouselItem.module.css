@@ -8,7 +8,7 @@
 }
 
 .item--focused {
-  transform: scale(1.08) translateZ(20px);
+  transform: scale(1.1);
   box-shadow: 0 0 0 2px var(--color-focus-ring);
     filter: 
           drop-shadow(0 0 3px rgba(255, 50, 50, 0.3))
@@ -33,6 +33,17 @@
   display: block;
   position: relative;
   z-index: 1;
+}
+
+/* Mobile: items take 60vw and are centered */
+@media (max-width: 768px) {
+  .item {
+    width: 60vw;
+  }
+
+  .item__image {
+    width: 100%;
+  }
 }
 
 .item__highlight {
